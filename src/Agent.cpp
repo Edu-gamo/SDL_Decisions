@@ -17,6 +17,23 @@ Agent::Agent() : sprite_texture(0),
 	             draw_sprite(false)
 {
 	steering_behavior = new SteeringBehavior;
+
+	st_home = Home();
+	st_bank = Bank();
+	st_saloon = Saloon();
+	st_mine = Mine();
+
+	currentState = &st_mine;
+
+	pocket = 0;
+	wealth = 0;
+	thirst = 0;
+	rest = 0;
+
+	maxPocket = 10;
+	maxWealth = 10;
+	maxThirst = 10;
+	maxRest = 10;
 }
 
 Agent::~Agent()
@@ -155,4 +172,9 @@ bool Agent::loadSpriteTexture(char* filename, int _num_frames)
 		SDL_FreeSurface(image);
 
 	return true;
+}
+
+void Agent::changeState(State* state) {
+	this->currentState = state;
+	this->currentState->Enter(this);
 }

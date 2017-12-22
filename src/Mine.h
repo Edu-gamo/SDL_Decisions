@@ -1,13 +1,14 @@
 #pragma once
+#include "State.h"
 
-class Mine:State {
+class Mine: public State {
 public:
 	Mine();
 	~Mine();
 
-	void Enter();
-	void Update();
-	void Exit();
+	void Enter(Agent* agent);
+	void Update(Agent* agent);
+	void Exit(Agent* agent, State nextState);
 
 private:
 

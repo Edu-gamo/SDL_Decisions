@@ -1,5 +1,5 @@
 #include "Mine.h"
-#include "State.h"
+#include "Agent.h"
 
 Mine::Mine() {
 
@@ -9,14 +9,20 @@ Mine::~Mine() {
 
 }
 
-void Mine::Enter() {
+void Mine::Enter(Agent* agent) {
 
 }
 
-void Mine::Update() {
+void Mine::Update(Agent* agent) {
+
+	agent->pocket++;
+	agent->thirst++;
+
+	if (agent->pocket >= agent->maxPocket) Exit(agent, agent->st_bank);
+	if (agent->thirst >= agent->maxThirst) Exit(agent, agent->st_saloon);
 
 }
 
-void Mine::Exit() {
-
+void Mine::Exit(Agent* agent, State nextState) {
+	agent->changeState(&nextState);
 }

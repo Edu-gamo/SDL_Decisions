@@ -8,6 +8,12 @@
 #include "utils.h"
 #include "SteeringBehavior.h"
 
+#include "State.h"
+#include "Home.h"
+#include "Saloon.h"
+#include "Bank.h"
+#include "Mine.h"
+
 
 class Agent
 {
@@ -48,5 +54,23 @@ public:
 	void update(Vector2D steering_force, float dtime, SDL_Event *event);
 	void draw();
 	bool Agent::loadSpriteTexture(char* filename, int num_frames=1);
+
+	State* currentState;
+	void changeState(State* state);
+
+	State st_home;
+	State st_bank;
+	State st_saloon;
+	State st_mine;
+
+	int pocket;
+	int wealth;
+	int thirst;
+	int rest;
+
+	int maxPocket;
+	int maxWealth;
+	int maxThirst;
+	int maxRest;
 	
 };

@@ -1,5 +1,5 @@
 #include "Home.h"
-#include "State.h"
+#include "Agent.h"
 
 Home::Home() {
 
@@ -9,14 +9,19 @@ Home::~Home() {
 
 }
 
-void Home::Enter() {
+void Home::Enter(Agent* agent) {
+
+	sleepTime = 10500;
 
 }
 
-void Home::Update() {
+void Home::Update(Agent* agent) {
+
+	sleepTime--;
+	if(sleepTime <= 0) Exit(agent, agent->st_mine);
 
 }
 
-void Home::Exit() {
-
+void Home::Exit(Agent* agent, State nextState) {
+	agent->changeState(&nextState);
 }

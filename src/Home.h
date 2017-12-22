@@ -1,14 +1,16 @@
 #pragma once
+#include "State.h"
 
-class Home:State {
+class Home: public State {
 public:
 	Home();
 	~Home();
 
-	void Enter();
-	void Update();
-	void Exit();
+	void Enter(Agent* agent);
+	void Update(Agent* agent);
+	void Exit(Agent* agent, State nextState);
 
 private:
+	int sleepTime;
 
 };
