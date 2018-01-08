@@ -5,6 +5,8 @@
 #include "Agent.h"
 #include "Path.h"
 
+#include"Graph.h"
+
 class ScenePlanning1 :
 	public Scene
 {
@@ -34,5 +36,7 @@ private:
 	Vector2D cell2pix(Vector2D cell);
 	Vector2D pix2cell(Vector2D pix);
 	bool isValidCell(Vector2D cell);
+
+	Graph graph;
 
 };

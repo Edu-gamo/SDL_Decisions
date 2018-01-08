@@ -51,7 +51,7 @@
     <ClCompile Include="..\src\Saloon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dsdds.cpp">
+    <ClCompile Include="..\src\Graph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -98,7 +98,7 @@
     <ClInclude Include="..\src\Saloon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="dsdds.h">
+    <ClInclude Include="..\src\Graph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

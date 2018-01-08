@@ -8,6 +8,9 @@
 #include "utils.h"
 #include "SteeringBehavior.h"
 
+#include "Graph.h"
+#include "Path.h"
+
 #include "State.h"
 #include "Home.h"
 #include "Saloon.h"
@@ -54,6 +57,8 @@ public:
 	void update(Vector2D steering_force, float dtime, SDL_Event *event);
 	void draw();
 	bool Agent::loadSpriteTexture(char* filename, int num_frames=1);
+
+	Path apuntero(Vector2D pinit, Vector2D pend, Graph terrain);
 
 	State* currentState;
 	void changeState(State* state);

@@ -1,4 +1,6 @@
 #include "Agent.h"
+#include <queue>
+#include <cmath>
 
 using namespace std;
 
@@ -177,4 +179,115 @@ bool Agent::loadSpriteTexture(char* filename, int _num_frames)
 void Agent::changeState(State* state) {
 	this->currentState = state;
 	this->currentState->Enter(this);
+}
+
+float heuristic(Vector2D a, Vector2D b) {
+	//# Manhattan distance on a square grid
+	return std::abs(a.x - b.x) + std::abs(a.y - b.y);
+}
+
+bool search(vector<Connection> cameFrom, Vector2D position) {
+	bool find = false;
+	int i = 0;
+	while (!find && i < cameFrom.size()) {
+		if (*cameFrom[i].getToNode() == position)
+			find = true;
+		i++;
+	}
+	return find;
+}
+
+int find(vector<Connection> cameFrom, Vector2D position) {
+	int pos;
+	bool find = false;
+	int i = 0;
+	while (!find && i < cameFrom.size()) {
+		if (*cameFrom[i].getToNode() == position) {
+			find = true;
+			pos = i;
+		}
+		i++;
+	}
+	return pos;
+}
+
+Vector2D getPrevious(vector<Connection> cameFrom, Vector2D position) {
+	bool find = false;
+	Vector2D prev = NULL;
+	int i = 0;
+	while (!find && i < cameFrom.size()) {
+		if (*cameFrom[i].getToNode() == position) {
+			find = true;
+			prev = *cameFrom[i].getFromNode();
+		}
+		i++;
+	}
+	return prev;
+}
+
+bool operator<(pair<float, Vector2D> a, pair<float, Vector2D> b) { return a.first > b.first ? true : false; }
+
+Path Agent::apuntero(Vector2D pinit, Vector2D pend, Graph terrain) {
+
+	priority_queue<pair<float, Vector2D>> frontier;
+	frontier.push(make_pair(0, pinit));
+	vector<Connection> cFrom;
+	cFrom.push_back(Connection(NULL, pinit, 0));
+
+	int cont = 0; //Contador de nodos explorados
+
+	while (frontier.size() > 0) {
+
+		pair<int, Vector2D> current = frontier.top();
+		frontier.pop();
+		//if (current.second == pend) break; //Early exit
+
+		vector<Connection> neighboor = terrain.getConnections(&current.second);
+		cont++;
+
+		for (int i = 0; i < neighboor.size(); i++) {
+			int newCost = current.first + neighboor[i].cost;
+			bool isthere = search(cFrom, *neighboor[i].getToNode());
+			float heu = newCost + (heuristic(*neighboor[i].getToNode(), pend) / (CELL_SIZE * CELL_SIZE));
+			if (!isthere) {
+				neighboor[i].cost = newCost;
+				frontier.push(make_pair(heu, *neighboor[i].getToNode()));
+				cFrom.push_back(neighboor[i]);
+			}
+			else {
+				int pos = find(cFrom, *neighboor[i].getToNode());
+				int provaCost = cFrom[pos].cost;
+				if (newCost < provaCost) {
+					neighboor[i].cost = newCost;
+					frontier.push(make_pair(heu, *neighboor[i].getToNode()));
+					cFrom[pos] = neighboor[i];
+				}
+			}
+		}
+
+	}
+
+	cout << "Nodos explorados (apuntero): " << cont << endl;
+
+	Path pathInverse;
+	Vector2D current = pend;
+	pathInverse.points.push_back(current);
+	while (current != pinit && current != NULL) {
+
+		current = getPrevious(cFrom, current);
+		if (current != NULL) pathInverse.points.push_back(current);
+
+	}
+
+	cFrom.clear();
+
+	int size = pathInverse.points.size();
+	Path path;
+	for (int i = 0; i < size; i++) {
+		path.points.push_back(pathInverse.points.back());
+		pathInverse.points.pop_back();
+	}
+
+	return path;
+
 }
