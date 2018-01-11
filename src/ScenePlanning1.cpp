@@ -15,6 +15,7 @@ ScenePlanning1::ScenePlanning1()
 
 	Agent *agent = new Agent;
 	agent->loadSpriteTexture("../res/soldier.png", 4);
+	agent->terrain = graph;
 	agents.push_back(agent);
 
 
@@ -74,6 +75,16 @@ void ScenePlanning1::update(float dtime, SDL_Event *event)
 	default:
 		break;
 	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	if (agents[0]->changePath) {
+		cout << "ENTRA" << endl;
+		agents[0]->changePath = false;
+		path = agents[0]->path;
+		cout << path.points[path.points.size()-1].x << endl;
+	}
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	if ((currentTargetIndex == -1) && (path.points.size()>0))
 		currentTargetIndex = 0;
 
@@ -150,7 +161,7 @@ void ScenePlanning1::draw()
 
 const char* ScenePlanning1::getTitle()
 {
-	return "SDL Steering Behaviors :: PathFinding1 Demo";
+	return "SDL Steering Behaviors :: DECISIONS1 Demo";
 }
 
 void ScenePlanning1::drawMaze()

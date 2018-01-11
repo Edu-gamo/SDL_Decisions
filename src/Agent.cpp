@@ -20,22 +20,24 @@ Agent::Agent() : sprite_texture(0),
 {
 	steering_behavior = new SteeringBehavior;
 
-	st_home = Home();
-	st_bank = Bank();
-	st_saloon = Saloon();
-	st_mine = Mine();
+	st_home = new Home();
+	st_bank = new Bank();
+	st_saloon = new Saloon();
+	st_mine = new Mine();
 
-	currentState = &st_mine;
+	//currentState = st_mine;
+	changeState(st_mine);
 
 	pocket = 0;
 	wealth = 0;
 	thirst = 0;
-	rest = 0;
+	tired = 0;
 
-	maxPocket = 10;
-	maxWealth = 10;
-	maxThirst = 10;
-	maxRest = 10;
+	maxPocket = 500;
+	maxWealth = 3000;
+	maxThirst = 1250;
+	maxTired = 2250;
+
 }
 
 Agent::~Agent()
@@ -129,6 +131,12 @@ void Agent::update(Vector2D steering_force, float dtime, SDL_Event *event)
 	if (position.y < 0) position.y = TheApp::Instance()->getWinSize().y;
 	if (position.x > TheApp::Instance()->getWinSize().x) position.x = 0;
 	if (position.y > TheApp::Instance()->getWinSize().y) position.y = 0;
+
+	currentState->Update(this);
+	//cout << currentState->location.x << endl;
+
+	cout << "Thirst: " << thirst << "/" << maxThirst << "\nWealth: " << wealth << "/" << maxWealth << "\nTired: " << tired << "/" << maxTired << "\nPocket: " << pocket << "/" << maxPocket << "\n-----------------------------------------------------" << endl;
+
 }
 
 void Agent::draw()
@@ -227,7 +235,7 @@ Vector2D getPrevious(vector<Connection> cameFrom, Vector2D position) {
 
 bool operator<(pair<float, Vector2D> a, pair<float, Vector2D> b) { return a.first > b.first ? true : false; }
 
-Path Agent::apuntero(Vector2D pinit, Vector2D pend, Graph terrain) {
+Path Agent::apuntero(Vector2D pinit, Vector2D pend/*, Graph terrain*/) {
 
 	priority_queue<pair<float, Vector2D>> frontier;
 	frontier.push(make_pair(0, pinit));
@@ -241,7 +249,6 @@ Path Agent::apuntero(Vector2D pinit, Vector2D pend, Graph terrain) {
 		pair<int, Vector2D> current = frontier.top();
 		frontier.pop();
 		//if (current.second == pend) break; //Early exit
-
 		vector<Connection> neighboor = terrain.getConnections(&current.second);
 		cont++;
 
@@ -290,4 +297,9 @@ Path Agent::apuntero(Vector2D pinit, Vector2D pend, Graph terrain) {
 
 	return path;
 
+}
+
+bool Agent::calcularDistancia(Vector2D p1, Vector2D p2) {
+	float dist = std::sqrt(std::pow((p1.x - p2.x), 2) + std::pow((p1.y - p2.y), 2));
+	return dist <= 5.f;
 }

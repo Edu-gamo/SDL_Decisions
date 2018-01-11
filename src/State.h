@@ -1,4 +1,5 @@
 #pragma once
+#include "Vector2D.h"
 
 class Agent;
 
@@ -9,8 +10,8 @@ public:
 
 	virtual void Enter(Agent* agent) {};
 	virtual void Update(Agent* agent) {};
-	virtual void Exit(Agent* agent, State nextState) {};
+	virtual void Exit(Agent* agent, State* nextState) {};
 
-private:
+	Vector2D location;
 
 };

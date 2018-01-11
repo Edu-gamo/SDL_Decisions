@@ -17,6 +17,8 @@
 #include "Bank.h"
 #include "Mine.h"
 
+#include <math.h>
+
 
 class Agent
 {
@@ -58,24 +60,30 @@ public:
 	void draw();
 	bool Agent::loadSpriteTexture(char* filename, int num_frames=1);
 
-	Path apuntero(Vector2D pinit, Vector2D pend, Graph terrain);
+	bool changePath;
+	Path path;
+	Path apuntero(Vector2D pinit, Vector2D pend/*, Graph terrain*/);
+
+	Graph terrain;
 
 	State* currentState;
 	void changeState(State* state);
 
-	State st_home;
-	State st_bank;
-	State st_saloon;
-	State st_mine;
+	State* st_home;
+	State* st_bank;
+	State* st_saloon;
+	State* st_mine;
 
 	int pocket;
 	int wealth;
 	int thirst;
-	int rest;
+	int tired;
 
 	int maxPocket;
 	int maxWealth;
 	int maxThirst;
-	int maxRest;
+	int maxTired;
+
+	bool calcularDistancia(Vector2D p1, Vector2D p2);
 	
 };

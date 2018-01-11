@@ -8,7 +8,7 @@ public:
 
 	void Enter(Agent* agent);
 	void Update(Agent* agent);
-	void Exit(Agent* agent, State nextState);
+	void Exit(Agent* agent, State* nextState);
 
 private:
 
