@@ -2,7 +2,7 @@
 #include "Agent.h"
 
 Mine::Mine() {
-	location = Vector2D(20 * CELL_SIZE, 3 * CELL_SIZE);
+	location = Vector2D(20 * CELL_SIZE - CELL_SIZE / 2, 3 * CELL_SIZE - CELL_SIZE / 2);
 }
 
 Mine::~Mine() {
@@ -11,14 +11,15 @@ Mine::~Mine() {
 
 void Mine::Enter(Agent* agent) {
 	cout << "MINA" << endl;
-	agent->path = agent->apuntero(agent->getPosition(), location);
+	//agent->path = agent->apuntero(agent->getPosition(), location);
+	agent->setTarget(location);
 	agent->changePath = true;
 }
 
 void Mine::Update(Agent* agent) {
 
 	if (agent->calcularDistancia(agent->getPosition(), location)) {
-
+		if (agent->getPosition() != location) agent->setPosition(location);
 		agent->pocket++;
 		agent->thirst++;
 		agent->tired++;

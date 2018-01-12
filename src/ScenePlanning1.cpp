@@ -4,7 +4,7 @@ using namespace std;
 
 ScenePlanning1::ScenePlanning1()
 {
-	draw_grid = false;
+	draw_grid = true;
 
 	num_cell_x = SRC_WIDTH / CELL_SIZE;
 	num_cell_y = SRC_HEIGHT / CELL_SIZE;
@@ -15,7 +15,7 @@ ScenePlanning1::ScenePlanning1()
 
 	Agent *agent = new Agent;
 	agent->loadSpriteTexture("../res/soldier.png", 4);
-	agent->terrain = graph;
+	//agent->terrain = graph;
 	agents.push_back(agent);
 
 
@@ -80,8 +80,9 @@ void ScenePlanning1::update(float dtime, SDL_Event *event)
 	if (agents[0]->changePath) {
 		cout << "ENTRA" << endl;
 		agents[0]->changePath = false;
-		path = agents[0]->path;
-		cout << path.points[path.points.size()-1].x << endl;
+		//path = agents[0]->path;
+		//cout << path.points[path.points.size()-1].x << endl;
+		path = agents[0]->apuntero(agents[0]->getPosition(), agents[0]->getTarget(), graph);
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

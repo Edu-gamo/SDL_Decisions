@@ -2,7 +2,7 @@
 #include "Agent.h"
 
 Saloon::Saloon() {
-	location = Vector2D(7 * CELL_SIZE, 20 * CELL_SIZE);
+	location = Vector2D(7 * CELL_SIZE - CELL_SIZE / 2, 20 * CELL_SIZE - CELL_SIZE / 2);
 }
 
 Saloon::~Saloon() {
@@ -11,13 +11,15 @@ Saloon::~Saloon() {
 
 void Saloon::Enter(Agent* agent) {
 	cout << "Saloon" << endl;
-	agent->path = agent->apuntero(agent->getPosition(), location);
+	//agent->path = agent->apuntero(agent->getPosition(), location);
+	agent->setTarget(location);
 	agent->changePath = true;
 }
 
 void Saloon::Update(Agent* agent) {
 	
 	if (agent->calcularDistancia(agent->getPosition(), location)) {
+		if (agent->getPosition() != location) agent->setPosition(location);
 		if (agent->thirst > 0) agent->thirst--;
 		agent->wealth--;
 		if ((agent->thirst <= 0 || agent->wealth <= 0) && (agent->wealth + agent->pocket <= agent->maxWealth)) Exit(agent, agent->st_mine);

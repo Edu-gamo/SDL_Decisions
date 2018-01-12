@@ -235,7 +235,7 @@ Vector2D getPrevious(vector<Connection> cameFrom, Vector2D position) {
 
 bool operator<(pair<float, Vector2D> a, pair<float, Vector2D> b) { return a.first > b.first ? true : false; }
 
-Path Agent::apuntero(Vector2D pinit, Vector2D pend/*, Graph terrain*/) {
+Path Agent::apuntero(Vector2D pinit, Vector2D pend, Graph terrain) {
 
 	priority_queue<pair<float, Vector2D>> frontier;
 	frontier.push(make_pair(0, pinit));

@@ -61,10 +61,11 @@ public:
 	bool Agent::loadSpriteTexture(char* filename, int num_frames=1);
 
 	bool changePath;
-	Path path;
-	Path apuntero(Vector2D pinit, Vector2D pend/*, Graph terrain*/);
+	//Path path;
+	//Path apuntero(Vector2D pinit, Vector2D pend/*, Graph terrain*/);
+	Path apuntero(Vector2D pinit, Vector2D pend, Graph terrain);
 
-	Graph terrain;
+	//Graph terrain;
 
 	State* currentState;
 	void changeState(State* state);
